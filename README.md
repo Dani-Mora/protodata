@@ -11,17 +11,17 @@ The latter contains information related to Airbnb listings around the world. It 
 
 ## Serialization
 
-In order to generate Proto Examples from any of the datasets, we must execute any of the files in the **examples** folder following this format:
+In order to generate Proto Examples from any of the datasets, we must execute any of the files in the *examples* folder following this format:
 
-> <dataset-name>_build_data.py
+> *dataset-name*_build_data.py
 
-This will generate data into a **.tf_data** folder inside the home directory.
+This will generate data into a *.tf_data* folder inside the home directory.
 
 ## Reading
 
 In order to read Proto Examples for any of the datasets, we may also find examples within the **examples** folder. They follow this pattern:
 
-> <dataset-name>_read_data.py
+> *dataset-name*_read_data.py
 
 # Custom datasets
 
