@@ -10,7 +10,7 @@ from dataio.utils import NON_SAVABLE_COL, get_logger
 import abc
 import tensorflow as tf
 
-logger = get_logger(__file__)
+logger = get_logger(__name__)
 
 
 class BaseQuantize(object):

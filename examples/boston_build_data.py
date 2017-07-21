@@ -13,7 +13,7 @@ from dataio.utils import get_data_location
 import logging
 import tensorflow as tf
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 tf.app.flags.DEFINE_float('train_ratio', 0.80,
                           'Ratio of training instances. ' +

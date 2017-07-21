@@ -24,7 +24,7 @@ import struct
 import array
 import tensorflow as tf
 
-logger = get_logger(__file__)
+logger = get_logger(__name__)
 
 TRAIN_DATA_URL = \
     'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz'

@@ -39,7 +39,7 @@ FLAGS = tf.app.flags.FLAGS
 
 if __name__ == '__main__':
 
-    logger = get_logger(__file__)
+    logger = get_logger(__name__)
 
     with tf.Session() as sess:
 

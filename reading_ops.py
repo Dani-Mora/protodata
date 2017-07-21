@@ -7,7 +7,7 @@ from abc import ABCMeta
 import os
 import tensorflow as tf
 
-logger = get_logger(__file__)
+logger = get_logger(__name__)
 
 
 """ File containing code to batch serialized data.

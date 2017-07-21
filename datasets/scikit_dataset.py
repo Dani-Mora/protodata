@@ -17,7 +17,7 @@ from dataio.utils import get_logger
 import numpy as np
 import tensorflow as tf
 
-logger = get_logger(__file__)
+logger = get_logger(__name__)
 
 
 class ScikitSerialize(SerializeSettings):
