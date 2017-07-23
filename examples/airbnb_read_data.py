@@ -10,11 +10,11 @@ For a summary of the columns see airbnb_build_data.py.
 
 """
 
-from dataio.data_ops import DataMode
-from dataio.reading_ops import DataReader
-from dataio.datasets import AirbnbSettings, Datasets
-from dataio.image_ops import get_alexnet_specs
-from dataio.utils import get_logger, get_data_location
+from protodata.data_ops import DataMode
+from protodata.reading_ops import DataReader
+from protodata.datasets import AirbnbSettings, Datasets
+from protodata.image_ops import get_alexnet_specs
+from protodata.utils import get_logger, get_data_location
 
 import scipy
 import tensorflow as tf

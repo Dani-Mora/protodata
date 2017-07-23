@@ -62,9 +62,9 @@ be patient :)
 
 """
 
-from dataio.serialization_ops import DataSerializer
-from dataio.datasets import AirbnbSerialize, Datasets
-from dataio.utils import get_tmp_data_location, get_data_location
+from protodata.serialization_ops import DataSerializer
+from protodata.datasets import AirbnbSerialize, Datasets
+from protodata.utils import get_tmp_data_location, get_data_location
 
 import tensorflow as tf
 import os

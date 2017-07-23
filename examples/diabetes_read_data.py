@@ -8,10 +8,10 @@ For a summary of the columns see boston_build_data.py.
 
 """
 
-from dataio.reading_ops import DataReader
-from dataio.datasets import DiabetesSettings, Datasets
-from dataio.data_ops import DataMode
-from dataio.utils import get_data_location, get_logger
+from protodata.reading_ops import DataReader
+from protodata.datasets import DiabetesSettings, Datasets
+from protodata.data_ops import DataMode
+from protodata.utils import get_data_location, get_logger
 
 import tensorflow as tf
 

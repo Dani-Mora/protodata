@@ -1,6 +1,6 @@
-from dataio.datasets.airbnb import AirbnbSettings, AirbnbSerialize
-from dataio.datasets.mnist import MnistSettings, MnistSerialize
-from dataio.datasets.scikit_dataset import BostonSettings, BostonSerialize, \
+from protodata.datasets.airbnb import AirbnbSettings, AirbnbSerialize
+from protodata.datasets.mnist import MnistSettings, MnistSerialize
+from protodata.datasets.scikit_dataset import BostonSettings, BostonSerialize, \
     DiabetesSettings, DiabetesSerialize
 
 __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',

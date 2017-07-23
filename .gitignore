@@ -1,4 +1,6 @@
 *.pyc
 __pychache__
 
-*.ipynb_checkpoints
+notebooks/.ipynb_checkpoints
+
+.vscode

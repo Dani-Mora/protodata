@@ -8,11 +8,11 @@ For a summary of the columns see mnist_build_data.py.
 
 """
 
-from dataio.reading_ops import DataReader
-from dataio.datasets import MnistSettings, Datasets
-from dataio.data_ops import DataMode
-from dataio.image_ops import get_image_specs
-from dataio.utils import NetworkModels, get_data_location, get_logger
+from protodata.reading_ops import DataReader
+from protodata.datasets import MnistSettings, Datasets
+from protodata.data_ops import DataMode
+from protodata.image_ops import get_image_specs
+from protodata.utils import NetworkModels, get_data_location, get_logger
 
 import scipy.misc
 import tensorflow as tf

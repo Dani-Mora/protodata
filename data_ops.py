@@ -2,8 +2,8 @@ import matplotlib.path as mplPath
 from abc import ABCMeta
 import abc
 
-from dataio.utils import read_json, get_logger
-from dataio.columns import create_image_column
+from protodata.utils import read_json, get_logger
+from protodata.columns import create_image_column
 
 import numpy as np
 import os

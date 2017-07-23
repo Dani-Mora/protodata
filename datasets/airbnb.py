@@ -5,12 +5,12 @@ Airbnb representing public  gathered from Inside Airbnb platform.
 
 """
 
-from dataio.data_ops import is_numeric, SparseColumn, ImageColumn, is_bool, \
+from protodata.data_ops import is_numeric, SparseColumn, ImageColumn, is_bool, \
     map_feature_type, normalize_data, bytes_feature, get_column_info, \
     is_categorical, split_data, NumericColumn, map_feature, int64_feature
-from dataio.serialization_ops import SerializeSettings
-from dataio.reading_ops import DataSettings
-from dataio.utils import load_pickle, get_logger
+from protodata.serialization_ops import SerializeSettings
+from protodata.reading_ops import DataSettings
+from protodata.utils import load_pickle, get_logger
 
 import pandas as pd
 import numpy as np

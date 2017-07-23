@@ -1,4 +1,4 @@
-from dataio.utils import NetworkModels
+from protodata.utils import NetworkModels
 
 import numpy as np
 import tensorflow as tf

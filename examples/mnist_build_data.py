@@ -7,9 +7,9 @@ plus the usual image and label columns
 
 """
 
-from dataio.serialization_ops import DataSerializer
-from dataio.datasets import MnistSerialize, Datasets
-from dataio.utils import get_data_location, get_tmp_data_location
+from protodata.serialization_ops import DataSerializer
+from protodata.datasets import MnistSerialize, Datasets
+from protodata.utils import get_data_location, get_tmp_data_location
 
 import tensorflow as tf
 

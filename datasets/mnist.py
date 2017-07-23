@@ -8,12 +8,12 @@ pixel position for experiments
 
 """
 
-from dataio.serialization_ops import SerializeSettings
-from dataio.reading_ops import DataSettings
-from dataio.data_ops import bytes_feature, int64_feature, DataMode, \
+from protodata.serialization_ops import SerializeSettings
+from protodata.reading_ops import DataSettings
+from protodata.data_ops import bytes_feature, int64_feature, DataMode, \
     map_feature_type, NumericColumn, SparseColumn, ImageColumn, \
     float64_feature
-from dataio.utils import create_dir, get_filename_url, get_logger
+from protodata.utils import create_dir, get_filename_url, get_logger
 
 import numpy as np
 import os

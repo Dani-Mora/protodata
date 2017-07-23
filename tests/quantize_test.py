@@ -1,7 +1,7 @@
 
 """ Test of quantize classes """
 
-from dataio.quantize import Quantize, SoftQuantize
+from protodata.quantize import Quantize, SoftQuantize
 import numpy as np
 import tensorflow as tf
 import logging

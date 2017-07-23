@@ -1,6 +1,6 @@
-import dataio.data_ops as do
-from dataio.utils import FileNotFound, load_pickle, get_logger
-from dataio.quantize import BaseQuantize
+import protodata.data_ops as do
+from protodata.utils import FileNotFound, load_pickle, get_logger
+from protodata.quantize import BaseQuantize
 
 import abc
 from abc import ABCMeta

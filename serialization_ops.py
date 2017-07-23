@@ -1,6 +1,6 @@
-import dataio.data_ops as do
-from dataio.utils import save_pickle, create_dir, download_file, get_logger
-from dataio.image_ops import ImageCoder, process_image
+import protodata.data_ops as do
+from protodata.utils import save_pickle, create_dir, download_file, get_logger
+from protodata.image_ops import ImageCoder, process_image
 
 import threading
 from datetime import datetime

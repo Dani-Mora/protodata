@@ -6,9 +6,9 @@ For more information about the data check scikit_dataset.py
 
 """
 
-from dataio.serialization_ops import DataSerializer
-from dataio.datasets import DiabetesSerialize, Datasets
-from dataio.utils import get_data_location
+from protodata.serialization_ops import DataSerializer
+from protodata.datasets import DiabetesSerialize, Datasets
+from protodata.utils import get_data_location
 
 import tensorflow as tf
 

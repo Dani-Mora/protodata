@@ -5,8 +5,8 @@ categorical columns
 
 """
 
-from dataio.data_ops import copy_columns, get_interval_mask
-from dataio.utils import NON_SAVABLE_COL, get_logger
+from protodata.data_ops import copy_columns, get_interval_mask
+from protodata.utils import NON_SAVABLE_COL, get_logger
 import abc
 import tensorflow as tf
 

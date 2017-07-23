@@ -8,11 +8,11 @@ import abc
 from sklearn.datasets import load_diabetes
 from sklearn.datasets import load_boston
 
-from dataio.data_ops import NumericColumn, split_data, feature_normalize, \
+from protodata.data_ops import NumericColumn, split_data, feature_normalize, \
     map_feature_type, map_feature
-from dataio.serialization_ops import SerializeSettings
-from dataio.reading_ops import DataSettings
-from dataio.utils import get_logger
+from protodata.serialization_ops import SerializeSettings
+from protodata.reading_ops import DataSettings
+from protodata.utils import get_logger
 
 import numpy as np
 import tensorflow as tf
