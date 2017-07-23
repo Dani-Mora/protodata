@@ -1,4 +1,4 @@
-# tf_dataio
+# protodata
 Repository containing wrapper functions for generating and reading from Tensorflow Proto Examples.
 
 This code is intented to be executed using Python 3 and it is not guaranteed to work on 2.x versions. In order to use it the packages en the requirements file must be installed. We strongly recommend using virtualenv.
