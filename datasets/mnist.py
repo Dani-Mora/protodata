@@ -124,13 +124,15 @@ class MnistSerialize(SerializeSettings):
         # Get subset for validation set
         num_validation = int((self.ntrain + self.ntest) * val_ratio)
         num_train = self.ntrain - num_validation
+        
         perm_train = np.random.permutation(self.ntrain)
 
-        train = list(zip(perm_train[num_validation:].tolist(),
+        train = list(zip(perm_train[num_train:].tolist(),
                      [DataMode.TRAINING] * num_train))
 
         val = list(zip(perm_train[:num_validation].tolist(),
                    [DataMode.VALIDATION] * num_validation))
+
         # Test set already computed
         test = list(zip(range(self.ntest), [DataMode.TEST] * self.ntest))
         return train, val, test
