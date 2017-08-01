@@ -121,6 +121,10 @@ class MnistSerialize(SerializeSettings):
         """ Mnist has already the partition between training and test.
         Only validation ratio is used here """
         logger.warn('MNIST dataset is already split')
+
+        if val_ratio > 0.85:
+            raise ValueError('MNIST only support validation up to 85%')
+
         # Get subset for validation set
         num_validation = int((self.ntrain + self.ntest) * val_ratio)
         num_train = self.ntrain - num_validation
