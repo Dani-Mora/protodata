@@ -9,6 +9,7 @@ __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
 
 
 class Datasets:
+    AUS = 'australian'
     AIRBNB_PRICE = 'airbnb_price'
     AIRBNB_AVAILABLE = 'airbnb_availability'
     MNIST = 'mnist'
