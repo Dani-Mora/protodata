@@ -135,9 +135,3 @@ def is_downloaded(folder):
 
 def get_data_path(folder):
     return os.path.join(folder, DATA_FILE_NAME)
-
-
-def download(url, dst):
-    """ Downloads the data file into the given path """
-    # Download into temp file
-    urllib.request.urlretrieve(url, dst)
