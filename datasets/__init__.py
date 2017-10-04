@@ -2,13 +2,15 @@ from protodata.datasets.airbnb import AirbnbSettings, AirbnbSerialize
 from protodata.datasets.mnist import MnistSettings, MnistSerialize
 from protodata.datasets.australian import AusSettings, AusSerialize
 from protodata.datasets.sonar import SonarSettings, SonarSerialize
+from protodata.datasets.magic import MagicSettings, MagicSerialize
 from protodata.datasets.scikit_dataset import BostonSettings, \
     BostonSerialize, DiabetesSettings, DiabetesSerialize
 
 __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
            'MnistSerialize', 'BostonSettings', 'BostonSerialize',
            'AusSettings', 'AusSerialize', 'SonarSettings', 'SonarSerialize',
-           'DiabetesSettings', 'DiabetesSerialize', 'Datasets']
+           'DiabetesSettings', 'DiabetesSerialize', 'MagicSettings',
+           'MagicSerialize', 'Datasets']
 
 
 class Datasets:
@@ -18,4 +20,5 @@ class Datasets:
     MNIST = 'mnist'
     BOSTON = 'boston'
     DIABETES = 'diabetes'
+    MAGIC = 'magic'
     SONAR = 'sonar'
