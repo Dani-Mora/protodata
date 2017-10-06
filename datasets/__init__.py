@@ -5,12 +5,15 @@ from protodata.datasets.sonar import SonarSettings, SonarSerialize
 from protodata.datasets.magic import MagicSettings, MagicSerialize
 from protodata.datasets.scikit_dataset import BostonSettings, \
     BostonSerialize, DiabetesSettings, DiabetesSerialize
+from protodata.datasets.titanic import TitanicSettings, TitanicSerialize
+
 
 __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
            'MnistSerialize', 'BostonSettings', 'BostonSerialize',
            'AusSettings', 'AusSerialize', 'SonarSettings', 'SonarSerialize',
            'DiabetesSettings', 'DiabetesSerialize', 'MagicSettings',
-           'MagicSerialize', 'Datasets']
+           'MagicSerialize', 'TitanicSettings', 'TitanicSerialize',
+           'Datasets']
 
 
 class Datasets:
@@ -20,5 +23,6 @@ class Datasets:
     MNIST = 'mnist'
     BOSTON = 'boston'
     DIABETES = 'diabetes'
+    TITANIC = 'titanic'
     MAGIC = 'magic'
     SONAR = 'sonar'
