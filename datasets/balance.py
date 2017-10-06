@@ -155,3 +155,5 @@ def download(url, dst):
     # Copy dataset file into destination
     data_file = os.path.join(dst_path, DATA_FILE_NAME)
     shutil.copyfile(data_file, dst)
+
+    shutil.rmtree(tmp_folder)
