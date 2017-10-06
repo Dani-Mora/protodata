@@ -28,7 +28,7 @@ class TitanicSerialize(SerializeSettings):
         create_dir(data_path)
         # On-demand download if it does not exist
         if not is_downloaded(data_path):
-            logger.info('Downloading Australian dataset ...')
+            logger.info('Downloading Titanic dataset ...')
             download(DATA_URL, get_data_path(data_path))
 
     def read(self):

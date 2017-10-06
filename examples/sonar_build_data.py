@@ -1,12 +1,3 @@
-"""
-
-Serialization of the MNIST dataset into Example protos.
-
-Creates a categorical column for each pixel in the image (784 columns)
-plus the usual image and label columns
-
-"""
-
 from protodata.serialization_ops import DataSerializer
 from protodata.datasets import Datasets
 from protodata.datasets import SonarSerialize

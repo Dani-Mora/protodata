@@ -1,11 +1,3 @@
-"""
-
-Serialization of the Diabetes dataset into Example protos.
-
-For more information about the data check scikit_dataset.py
-
-"""
-
 from protodata.serialization_ops import DataSerializer
 from protodata.datasets import DiabetesSerialize, Datasets
 from protodata.utils import get_data_location

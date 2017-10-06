@@ -1,13 +1,3 @@
-"""
-
-Reads the Proto files containing the Boston. Expects several files to be
-contained in the directory, identified by the set of data they belong to
-and the slice of data they represent.
-
-For a summary of the columns see boston_build_data.py.
-
-"""
-
 from protodata.datasets import SonarSettings
 from protodata.datasets import Datasets
 from protodata.reading_ops import DataReader

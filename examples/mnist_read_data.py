@@ -1,13 +1,3 @@
-"""
-
-Reads the Proto files containing the MNIST dataset.
-Expects several files to be containd in the directory, identified by
-the set of data they belong to and the slice of data they represent.
-
-For a summary of the columns see mnist_build_data.py.
-
-"""
-
 from protodata.reading_ops import DataReader
 from protodata.datasets import MnistSettings, Datasets
 from protodata.data_ops import DataMode

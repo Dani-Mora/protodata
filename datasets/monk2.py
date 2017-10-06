@@ -29,7 +29,7 @@ class Monk2Serialize(SerializeSettings):
         create_dir(data_path)
         # On-demand download if it does not exist
         if not is_downloaded(data_path):
-            logger.info('Downloading Australian dataset ...')
+            logger.info('Downloading Monk2 dataset ...')
             download(DATA_URL, get_data_path(data_path))
 
     def read(self):
@@ -107,7 +107,7 @@ class Monk2Settings(DataSettings):
             quantizer=quantizer)
 
     def tag(self):
-        return 'titanic'
+        return 'monk2'
 
     def size_per_instance(self):
         return 0.5
@@ -150,5 +150,5 @@ def download(url, dst):
         f.extractall(dst_path)
 
     # Copy dataset file into destination
-    data_file = os.path.join(dst_path, 'monk-2.dat')
+    data_file = os.path.join(dst_path, DATA_FILE_NAME)
     shutil.copyfile(data_file, dst)

@@ -1,11 +1,3 @@
-"""
-
-Serialization of the Boston dataset into Example protos.
-
-For more information about the data check scikit_dataset.py
-
-"""
-
 from protodata.serialization_ops import DataSerializer
 from protodata.datasets import BostonSerialize, Datasets
 from protodata.utils import get_data_location
