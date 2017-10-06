@@ -139,7 +139,7 @@ class AusSettings(DataSettings):
 
 
 def is_downloaded(folder):
-    """ Returns whether MNIST has been downloaded """
+    """ Returns whether data has been downloaded """
     return os.path.isfile(get_data_path(folder))
 
 
