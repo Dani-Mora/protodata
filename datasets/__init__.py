@@ -7,6 +7,7 @@ from protodata.datasets.scikit_dataset import BostonSettings, \
     BostonSerialize, DiabetesSettings, DiabetesSerialize
 from protodata.datasets.titanic import TitanicSettings, TitanicSerialize
 from protodata.datasets.monk2 import Monk2Settings, Monk2Serialize
+from protodata.datasets.balance import BalanceSettings, BalanceSerialize
 
 
 __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
@@ -14,17 +15,19 @@ __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
            'AusSettings', 'AusSerialize', 'SonarSettings', 'SonarSerialize',
            'DiabetesSettings', 'DiabetesSerialize', 'MagicSettings',
            'MagicSerialize', 'TitanicSettings', 'TitanicSerialize',
-           'Monk2Settings', 'Monk2Serialize', 'Datasets']
+           'Monk2Settings', 'Monk2Serialize', 'BalanceSettings',
+           'BalanceSerialize', 'Datasets']
 
 
 class Datasets:
     AUS = 'australian'
     AIRBNB_PRICE = 'airbnb_price'
     AIRBNB_AVAILABLE = 'airbnb_availability'
-    MNIST = 'mnist'
+    BALANCE = 'balance'
     BOSTON = 'boston'
     DIABETES = 'diabetes'
-    TITANIC = 'titanic'
     MAGIC = 'magic'
+    MNIST = 'mnist'
     MONK2 = 'monk2'
     SONAR = 'sonar'
+    TITANIC = 'titanic'
