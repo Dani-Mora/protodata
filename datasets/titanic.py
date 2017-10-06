@@ -154,3 +154,5 @@ def download(url, dst):
     )
 
     shutil.copyfile(data_file, dst)
+    
+    shutil.rmtree(tmp_folder)
