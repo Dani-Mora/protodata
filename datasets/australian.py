@@ -101,7 +101,9 @@ class AusSerialize(SerializeSettings):
                 {str(i): float64_feature(row[i])}
             )
 
-        feature_dict.update({'class': int64_feature(int(self.labels[index]))})
+        feature_dict.update(
+            {'class': int64_feature(int(self.labels[index]))}
+        )
 
         return [tf.train.Example(features=tf.train.Features(feature=feature_dict))]  # noqa
 
