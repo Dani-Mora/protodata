@@ -97,10 +97,11 @@ class DataSerializer(object):
                             do.DataMode.TEST)
 
         # Store settings
-        self._store_options(output_folder,
-                            train_shards,
-                            val_shards,
-                            num_threads)
+        self._store_options(
+            output_folder,
+            train_ratio=train_ratio,
+            val_ratio=val_ratio
+        )
 
         # Free resources, if any
         self.settings.finalize()
@@ -156,19 +157,22 @@ class DataSerializer(object):
                             num_threads,
                             do.DataMode.TEST)
 
+        # Store settings
+        self._store_options(
+            output_folder,
+            train_ratio=train_ratio,
+            n_folds=n_folds
+        )
+
         # Free resources, if any
         self.settings.finalize()
 
-    def _store_options(self, output, train_shards, val_shards, threads):
+    def _store_options(self, output, **params):
         """ Stores serialization options in a 'metadata.dat' file
         in the output directory """
         # Basic info for all datasets
-        options = {
-            'shards_train': train_shards,
-            'shards_validation': val_shards,
-            'num_threads': threads,
-            'columns': self.settings.define_columns()
-        }
+        options = {'columns': self.settings.define_columns()}
+        options.update(params)
         # We can add dataset-specific data
         extra_options = self.settings.get_options()
         if extra_options is not None:
