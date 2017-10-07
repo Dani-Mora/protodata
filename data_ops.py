@@ -181,7 +181,7 @@ def quantile_normalization(data, train_ind, nq, excluded=[]):
             logger.info('Normalizing column %s' % name)
 
             # Compute histogram edges for training data
-            train_content = data.loc[train_ind, name]
+            train_content = data.iloc[train_ind, name]
             hist, edges = np.histogram(train_content, bins=nq-2)
             edges = np.array(edges)
 
@@ -216,7 +216,7 @@ def z_scores(data, train_ind, excluded=[]):
         if is_numeric(dtype):
 
             # Compute mean and std on training
-            train_content = data.loc[train_ind, name].as_matrix()
+            train_content = data.iloc[train_ind, name].as_matrix()
             mean, std, min_c, max_c = feature_normalize(train_content)
 
             # Store entry in dictionary

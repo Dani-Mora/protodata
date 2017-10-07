@@ -36,9 +36,9 @@ class BalanceSerialize(SerializeSettings):
         self.data = pd.read_csv(get_data_path(self.data_path),
                                 skiprows=9,
                                 header=None)
-        self.features = self.data.loc[:, self.data.columns.values[:-1]]
+        self.features = self.data.iloc[:, self.data.columns.values[:-1]]
         self.labels = pd.Categorical(
-            self.data.loc[:, self.data.columns.values[-1]],
+            self.data.iloc[:, self.data.columns.values[-1]],
         )
         self.labels.categories = [0, 1, 2]  # Map [B, L, R] into [0, 1, 2]
 
@@ -58,7 +58,7 @@ class BalanceSerialize(SerializeSettings):
     def _normalize_features(self, train_idx, val_idx):
         training = np.concatenate([train_idx, val_idx])
         mean_c, std_c, min_c, max_c = \
-            feature_normalize(self.features.loc[training, :])
+            feature_normalize(self.features.iloc[training, :])
 
         self.features = (self.features - mean_c) / std_c
 
@@ -87,14 +87,16 @@ class BalanceSerialize(SerializeSettings):
         return cols
 
     def build_examples(self, index):
-        row = self.features.loc[index, :]
+        row = self.features.iloc[index, :]
         feature_dict = {}
         for i in range(self.features.shape[1]):
             feature_dict.update(
-                {str(i): float64_feature(row[i])}
+                {str(i): float64_feature(row.iloc[i])}
             )
 
-        feature_dict.update({'class': int64_feature(int(self.labels[index]))})  # noqa
+        feature_dict.update(
+            {'class': int64_feature(int(self.labels[index]))}
+        )
 
         return [tf.train.Example(features=tf.train.Features(feature=feature_dict))]  # noqa
 

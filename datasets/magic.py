@@ -56,7 +56,7 @@ class MagicSerialize(SerializeSettings):
     def _normalize_features(self, train_idx, val_idx):
         training = np.concatenate([train_idx, val_idx])
         mean_c, std_c, min_c, max_c = \
-            feature_normalize(self.features.loc[training, :])
+            feature_normalize(self.features.iloc[training, :])
 
         self.features = (self.features - mean_c) / std_c
 
@@ -85,14 +85,14 @@ class MagicSerialize(SerializeSettings):
         return cols
 
     def build_examples(self, index):
-        row = self.features.loc[index, :]
+        row = self.features.iloc[index, :]
         feature_dict = {}
         for i in range(self.features.shape[1]):
             feature_dict.update(
-                {str(i): float64_feature(row[i])}
+                {str(i): float64_feature(row.iloc[i])}
             )
 
-        class_value = int(self.labels.loc[index])
+        class_value = int(self.labels.iloc[index])
         feature_dict.update({'class': int64_feature(class_value)})
 
         return [tf.train.Example(features=tf.train.Features(feature=feature_dict))]  # noqa
