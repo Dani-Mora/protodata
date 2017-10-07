@@ -48,9 +48,6 @@ class ScikitSerialize(SerializeSettings):
     def get_target_name(self):
         """ Returns the name of the target column"""
 
-    def get_instance_num(self):
-        return self.features.shape[0]
-
     def get_validation_indices(self, train_ratio, val_ratio):
         train, val, test = split_data(self.features.shape[0],
                                       train_ratio,

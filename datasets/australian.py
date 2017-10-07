@@ -49,9 +49,6 @@ class AusSerialize(SerializeSettings):
 
         self.labels = self.data[:, -1]
 
-    def get_instance_num(self):
-        return self.features.shape[0]
-
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Separates data into training, validation and test and normalizes
         the columns by using z-scores """

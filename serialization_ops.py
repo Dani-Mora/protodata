@@ -107,18 +107,23 @@ class DataSerializer(object):
 
     def serialize_folds(self,
                         output_folder,
+                        train_ratio,
                         n_folds,
                         num_threads,
+                        test_shards,
                         files_per_fold=1):
         """ Serializes the data into a Tensorflow recommended
         Example proto format using N folds. Each fold has its own
         folder with a certain amount of files.
         Args:
             output_folder: Output folder for the record files.
+            train_ratio: Ratio of instances in the training set. The rest
+                will be included in the test set.
             n_folds: Ratio of instances in the training data.
                 If original dataset already split, this is not used.
             num_threads: Number of threads to use.
-            instances_per_file: Number of instances contained in each file.
+            test_shards: Number of files to use for testing.
+            files_per_fold: Number of files for each training fold.
         """
         logger.info("Trying to create folded dataset into %s" % output_folder)
 
@@ -130,16 +135,26 @@ class DataSerializer(object):
         # Read dataset
         self.settings.initialize()
 
-        # Compute fold statistics
-        n_instances = self.settings.get_instance_num()
-        idx_per_fold = np.array_split(range(n_instances), n_folds)
+        # Split between training and test
+        train, _, test = \
+            self.settings.get_validation_indices(train_ratio, 0.0)
+
+        # Split training into folds
+        idx_per_fold = np.array_split(train, n_folds)
 
         for fold in range(n_folds):
             self._store_dataset(idx_per_fold[fold],
                                 output_folder,
                                 files_per_fold,
                                 num_threads,
-                                'fold_%d' % fold)
+                                'training_fold_%d' % fold)
+
+        # Save test dataset
+        self._store_dataset(test,
+                            output_folder,
+                            test_shards,
+                            num_threads,
+                            do.DataMode.TEST)
 
         # Free resources, if any
         self.settings.finalize()
@@ -366,7 +381,6 @@ class SerializeSettings(object):
     def read(self):
         """ Reads the dataset so it is ready for being serialized """
 
-
     @abc.abstractmethod
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Returns the data indices corresponding to training,
@@ -374,10 +388,6 @@ class SerializeSettings(object):
         Returns
             train, val, test: training and validation index sets
         """
-
-    @abc.abstractmethod
-    def get_instance_num(self):
-        """ Returns the number of instances available in the dataset """
 
     @abc.abstractmethod
     def define_columns(self):

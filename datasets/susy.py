@@ -38,9 +38,6 @@ class SusySerialize(SerializeSettings):
         # Labels are 0 for background and 1 for signal
         self.labels = self.data.loc[:, self.data.columns.values[0]]
 
-    def get_instance_num(self):
-        return self.features.shape[0]
-
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Separates data into training, validation and test and normalizes
         the columns by using z-scores """

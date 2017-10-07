@@ -42,9 +42,6 @@ class MagicSerialize(SerializeSettings):
         self.labels[self.labels == 'g'] = 1
         self.labels[self.labels == 'h'] = 0
 
-    def get_instance_num(self):
-        return self.features.shape[0]
-    
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Separates data into training, validation and test and normalizes
         the columns by using z-scores """

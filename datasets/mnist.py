@@ -117,9 +117,6 @@ class MnistSerialize(SerializeSettings):
             lbls[i] = labels[i]
         return imgs, lbls, n
 
-    def get_instance_num(self):
-        raise NotImplementedError()
-
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Mnist has already the partition between training and test.
         Only validation ratio is used here """

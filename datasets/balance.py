@@ -42,9 +42,6 @@ class BalanceSerialize(SerializeSettings):
         )
         self.labels.categories = [0, 1, 2]  # Map [B, L, R] into [0, 1, 2]
 
-    def get_instance_num(self):
-        return self.features.shape[0]
-
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Separates data into training, validation and test and normalizes
         the columns by using z-scores """
