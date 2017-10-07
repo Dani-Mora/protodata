@@ -86,6 +86,9 @@ class AirbnbSerialize(SerializeSettings):
                                   'picture_url': max_data,
                                   'listing_url': max_data}
 
+    def get_instance_num(self):
+        return self.num_instances
+
     def get_validation_indices(self, train_ratio, val_ratio):
         # Select subset of data if requested
         num = self.num_instances if self.subset is None else self.subset

@@ -32,6 +32,7 @@ logger = get_logger(__name__)
 
 NON_SAVABLE_COL = 'not_saveable'
 HOME_FOLDER = os.path.expanduser("~")
+FOLDED_DATA_ROOT = os.path.join(HOME_FOLDER, '.tf_data_folded')
 DATA_ROOT = os.path.join(HOME_FOLDER, '.tf_data')
 TMP_ROOT = os.path.join(HOME_FOLDER, '.tf_data_tmp')
 
@@ -46,12 +47,17 @@ def get_data_root():
     return DATA_ROOT
 
 
+def get_folded_data_root():
+    return FOLDED_DATA_ROOT
+
+
 def get_tmp_root():
     return TMP_ROOT
 
 
-def get_data_location(dataset):
-    return os.path.join(get_data_root(), dataset)
+def get_data_location(dataset, folded=False):
+    data_root = get_data_root() if not folded else get_folded_data_root()
+    return os.path.join(data_root, dataset)
 
 
 def get_tmp_data_location(dataset):

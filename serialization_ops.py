@@ -30,8 +30,14 @@ class DataSerializer(object):
             raise TypeError('Attribute must be subclass of SerializeSettings')
         self.settings = serialize_settings
 
-    def serialize(self, output_folder, train_ratio, val_ratio, num_threads,
-                  train_shards, val_shards, test_shards):
+    def serialize(self,
+                  output_folder,
+                  train_ratio,
+                  val_ratio,
+                  num_threads,
+                  train_shards,
+                  val_shards,
+                  test_shards):
         """ Serializes the data into a Tensorflow recommended
         Example proto format
         Args:
@@ -95,6 +101,45 @@ class DataSerializer(object):
                             train_shards,
                             val_shards,
                             num_threads)
+
+        # Free resources, if any
+        self.settings.finalize()
+
+    def serialize_folds(self,
+                        output_folder,
+                        n_folds,
+                        num_threads,
+                        files_per_fold=1):
+        """ Serializes the data into a Tensorflow recommended
+        Example proto format using N folds. Each fold has its own
+        folder with a certain amount of files.
+        Args:
+            output_folder: Output folder for the record files.
+            n_folds: Ratio of instances in the training data.
+                If original dataset already split, this is not used.
+            num_threads: Number of threads to use.
+            instances_per_file: Number of instances contained in each file.
+        """
+        logger.info("Trying to create folded dataset into %s" % output_folder)
+
+        if os.path.exists(output_folder):
+            raise ValueError('Dataset already exists!')
+
+        create_dir(output_folder)
+
+        # Read dataset
+        self.settings.initialize()
+
+        # Compute fold statistics
+        n_instances = self.settings.get_instance_num()
+        idx_per_fold = np.array_split(range(n_instances), n_folds)
+
+        for fold in range(n_folds):
+            self._store_dataset(idx_per_fold[fold],
+                                output_folder,
+                                files_per_fold,
+                                num_threads,
+                                'fold_%d' % fold)
 
         # Free resources, if any
         self.settings.finalize()
@@ -321,6 +366,7 @@ class SerializeSettings(object):
     def read(self):
         """ Reads the dataset so it is ready for being serialized """
 
+
     @abc.abstractmethod
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Returns the data indices corresponding to training,
@@ -328,6 +374,10 @@ class SerializeSettings(object):
         Returns
             train, val, test: training and validation index sets
         """
+
+    @abc.abstractmethod
+    def get_instance_num(self):
+        """ Returns the number of instances available in the dataset """
 
     @abc.abstractmethod
     def define_columns(self):
