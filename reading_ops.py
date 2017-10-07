@@ -3,6 +3,7 @@ from protodata.utils import FileNotFound, load_pickle, get_logger
 from protodata.quantize import BaseQuantize
 
 import abc
+import itertools
 from abc import ABCMeta
 import os
 import tensorflow as tf
@@ -28,8 +29,13 @@ class DataReader(object):
         self._jpeg_tag = 'jpeg'
         self._png_tag = 'png'
 
-    def read_batch(self, batch_size, data_mode, memory_factor, reader_threads,
-                   train_mode=True, shuffle=True):
+    def read_batch(self,
+                   batch_size,
+                   data_mode,
+                   memory_factor,
+                   reader_threads,
+                   train_mode=True,
+                   shuffle=True):
         """ Returns the dequeued serialized TFRecords from the dataset.
         Args:
             batch_size: Estimated batch size.
@@ -54,19 +60,86 @@ class DataReader(object):
         if self.settings.image_column() is not None \
                 and self.settings.image_specs is None:
             raise ValueError('Image field provided but no image specs found')
+
         if data_mode not in [do.DataMode.TRAINING,
                              do.DataMode.VALIDATION,
                              do.DataMode.TEST]:
             raise ValueError('Invalid data mode %s' % data_mode)
 
+        tf_records = self.settings.get_files(data_mode)
+        return self.read_files_batches(batch_size=batch_size,
+                                       data_mode=data_mode,
+                                       records=tf_records,
+                                       is_training=train_mode,
+                                       memory_factor=memory_factor,
+                                       reader_threads=reader_threads,
+                                       shuffle=shuffle)
+
+    def read_folded_batch(self,
+                          batch_size,
+                          data_mode,
+                          folds,
+                          memory_factor,
+                          reader_threads,
+                          train_mode=True,
+                          shuffle=True):
+        """ Returns the dequeued serialized TFRecords from the folded dataset
+        Args:
+            batch_size: Estimated batch size.
+            data_mode: Whether we are reading training or testing data.
+            folds: List of folds to read from. Not used for testing data.
+            memory_factor: Factor related to memory usage for enqueuing
+                (~GB to use) at maximum.
+            reader_threads: Number of parallel readers.
+            train_mode: Whether to infinitely process batches (True)
+                or finish once first epoch ends (False)
+            shuffle: Whether to shuffle examples
+
+        This function reads unlimited batches for training
+        (train_mode == True) and a single epoch for other modes
+        """
+        if data_mode not in [do.DataMode.TRAINING, do.DataMode.TEST]:
+            raise ValueError(
+                'Folded dataset only contains training or testing data'
+            )
+
+        logger.info('Reading batches from folds: {}'.format(folds))
+        logger.info('Using batch size of %d, memory of ~%d GB and %d threads'
+                    % (batch_size, memory_factor, reader_threads))
+
+        if data_mode == do.DataMode.TRAINING:
+            tf_records = self.settings.get_fold_files(folds)
+        else:
+            tf_records = self.settings.get_files(data_mode)
+
+        return self.read_files_batches(batch_size=batch_size,
+                                       data_mode=data_mode,
+                                       records=tf_records,
+                                       is_training=train_mode,
+                                       memory_factor=memory_factor,
+                                       reader_threads=reader_threads,
+                                       shuffle=shuffle)
+
+    def read_files_batches(self,
+                           batch_size,
+                           data_mode,
+                           records,
+                           is_training,
+                           memory_factor,
+                           reader_threads,
+                           shuffle=True):
+        """ Reads the content in the selected TFRecords and returns them
+        into batches """
         has_image = self.settings.image_column()
+
+        if self.settings.image_column() is not None \
+                and self.settings.image_specs is None:
+            raise ValueError('Image field provided but no image specs found')
 
         with tf.name_scope('batch_processing'):
 
-            records = self.settings.get_files(data_mode)
-
             # Define queue for the files
-            if train_mode:
+            if is_training:
                 file_queue = tf.train.string_input_producer(
                     records,
                     shuffle=shuffle,
@@ -297,6 +370,24 @@ class DataSettings(object):
             raise FileNotFound('No records files found in %s and %s subset'
                                % (location, data_mode))
         return data_files
+
+    def get_fold_files(self, folds):
+        """ Returns the files corresponding to the input folds """
+        location = self.dataset_location
+        all_files = []
+        for f in folds:
+            tf_record_pattern = do.get_filename_pattern(
+                location, 'training_fold_%d' % f
+            )
+            fold_files = tf.gfile.Glob(tf_record_pattern)
+            if not fold_files:
+                raise FileNotFound(
+                    'No records files found in %s for fold %d' % (location, f)
+                )
+
+            all_files.append(fold_files)
+
+        return list(itertools.chain.from_iterable(all_files))
 
     def get_image_shape(self):
         return [
