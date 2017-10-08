@@ -178,7 +178,7 @@ def quantile_normalization(data, train_ind, nq, excluded=[]):
 
         if is_numeric(dtype):
 
-            logger.info('Normalizing column %s' % name)
+            logger.debug('Normalizing column %s' % name)
 
             # Compute histogram edges for training data
             train_content = data.iloc[train_ind, name]
@@ -259,7 +259,7 @@ def to_dummy(data, name):
     def is_equal(x, other):
         return x == other
 
-    logger.info('Converting %s into dummy column ...' % name)
+    logger.debug('Converting %s into dummy column ...' % name)
 
     for val in data[name].unique():
 
@@ -297,7 +297,7 @@ def convert_boolean(data, excluded_columns=[], func=float):
     """
     for (c, t) in get_column_info(data, excluded=excluded_columns):
         if t == np.dtype('bool'):
-            logger.info('Converting boolean column %s to numeric' % c)
+            logger.debug('Converting boolean column %s to numeric' % c)
             data[c] = data[c].apply(func)
     return data
 

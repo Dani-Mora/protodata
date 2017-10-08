@@ -52,10 +52,10 @@ class DataReader(object):
         (train_mode == True) and a single epoch for other modes
         """
 
-        logger.info('Reading batches from %s' % data_mode)
+        logger.debug('Reading batches from %s' % data_mode)
 
-        logger.info('Using batch size of %d, memory of ~%d GB and %d threads'
-                    % (batch_size, memory_factor, reader_threads))
+        logger.debug('Using batch size of %d, memory of ~%d GB and %d threads'
+                     % (batch_size, memory_factor, reader_threads))
 
         if self.settings.image_column() is not None \
                 and self.settings.image_specs is None:
@@ -103,9 +103,9 @@ class DataReader(object):
                 'Folded dataset only contains training or testing data'
             )
 
-        logger.info('Reading batches from folds: {}'.format(folds))
-        logger.info('Using batch size of %d, memory of ~%d GB and %d threads'
-                    % (batch_size, memory_factor, reader_threads))
+        logger.debug('Reading batches from folds: {}'.format(folds))
+        logger.debug('Using batch size of %d, memory of ~%d GB and %d threads'
+                     % (batch_size, memory_factor, reader_threads))
 
         if data_mode == do.DataMode.TRAINING:
             tf_records = self.settings.get_fold_files(folds)

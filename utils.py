@@ -5,17 +5,16 @@ import os
 import json
 import urllib.request
 import logging
-import sys
 from datetime import datetime
 
 
-def get_logger(name, level=logging.DEBUG, channel=sys.stdout):
+def get_logger(name, level=logging.DEBUG):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
     # Set handler level and set output to go into std output
-    handler = logging.StreamHandler(channel)
-    handler.setLevel(level)
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
 
     # Set specific format
     src_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'

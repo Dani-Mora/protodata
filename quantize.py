@@ -79,8 +79,8 @@ class Quantize(BaseQuantize):
         if len(values.get_shape()) != 1:
             raise ValueError("Input tensor must be a 1D Tensor")
 
-        logger.info("Performing basic quantization using edges {}"
-                    .format(self.edges))
+        logger.debug("Performing basic quantization using edges {}"
+                     .format(self.edges))
 
         # Create new variable for quantized values
         new_values = _auxiliar_variable(name='quantize_data',
@@ -160,9 +160,9 @@ class SoftQuantize(BaseQuantize):
         if len(values.get_shape()) != 1:
             raise ValueError("Input tensor must be a 1D Tensor")
 
-        logger.info("Soft quantization with edges {}" .format(self.edges) +
-                    "Minimum probability {}".format(self.on_val) +
-                    " and factor {}".format(self.factor))
+        logger.debug("Soft quantization with edges {}" .format(self.edges) +
+                     "Minimum probability {}".format(self.on_val) +
+                     " and factor {}".format(self.factor))
 
         off = 1.0 - self.on_val
 
