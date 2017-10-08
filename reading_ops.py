@@ -299,6 +299,12 @@ class DataSettings(object):
         return self._get_num_classes() \
             if self.quantizer is None else self.quantizer.num_classes()
 
+    def get_fold_num(self):
+        if 'n_folds' in self.serialize_options:
+            return self.serialize_options['n_folds']
+        else:
+            raise RuntimeError('No fold information saved in the dataset')
+
     @abc.abstractmethod
     def size_per_instance(self):
         """ Approximate size per instance """
