@@ -305,6 +305,9 @@ class DataSettings(object):
         else:
             raise RuntimeError('No fold information saved in the dataset')
 
+    def get_training_num(self):
+        return self.serialize_options['n_training_instances']
+
     @abc.abstractmethod
     def size_per_instance(self):
         """ Approximate size per instance """

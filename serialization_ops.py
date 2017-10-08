@@ -99,6 +99,7 @@ class DataSerializer(object):
         # Store settings
         self._store_options(
             output_folder,
+            n_training_instances=len(train),
             train_ratio=train_ratio,
             val_ratio=val_ratio
         )
@@ -161,6 +162,7 @@ class DataSerializer(object):
         self._store_options(
             output_folder,
             train_ratio=train_ratio,
+            n_training_instances=len(train)/(n_folds-1),
             n_folds=n_folds
         )
 
