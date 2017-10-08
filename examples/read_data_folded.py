@@ -1,5 +1,4 @@
-from protodata.datasets.australian import AusSettings
-from protodata.datasets import Datasets
+from protodata.datasets import Datasets, TitanicSettings
 from protodata.reading_ops import DataReader
 from protodata.data_ops import DataMode
 from protodata.utils import get_data_location, get_logger
@@ -8,7 +7,7 @@ import tensorflow as tf
 
 
 tf.app.flags.DEFINE_string('data_location',
-                           get_data_location(Datasets.AUS, folded=True),
+                           get_data_location(Datasets.TITANIC, folded=True),
                            'Path where to build dataset')
 
 tf.app.flags.DEFINE_string('batch_size',
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     with tf.Session() as sess:
 
         # Boston settings
-        dataset = AusSettings(dataset_location=FLAGS.data_location)
+        dataset = TitanicSettings(dataset_location=FLAGS.data_location)
 
         # Read batches from dataset
         reader = DataReader(dataset)
