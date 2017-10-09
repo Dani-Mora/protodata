@@ -159,10 +159,12 @@ class DataSerializer(object):
                             do.DataMode.TEST)
 
         # Store settings
+        fold_size = int(len(train)/n_folds)
         self._store_options(
             output_folder,
             train_ratio=train_ratio,
-            n_training_instances=len(train)/(n_folds-1),
+            fold_size=fold_size,
+            n_training_instances=fold_size*(n_folds-1),
             n_folds=n_folds
         )
 
