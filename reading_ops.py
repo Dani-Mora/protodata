@@ -308,6 +308,9 @@ class DataSettings(object):
     def get_training_num(self):
         return self.serialize_options['n_training_instances']
 
+    def get_fold_size(self):
+        return self.serialize_options['fold_size']
+
     @abc.abstractmethod
     def size_per_instance(self):
         """ Approximate size per instance """
