@@ -5,18 +5,18 @@ from protodata.data_ops import NumericColumn, split_data, feature_normalize, \
     map_feature_type, float64_feature, int64_feature
 
 import tensorflow as tf
-import pandas as pd
 import numpy as np
+import pandas as pd
 
+import zipfile
 import tempfile
+import shutil
 import os
 import logging
 from six.moves import urllib
 
-
-DATA_FILE_NAME = 'australian.npy'
-DATA_URL = 'http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/australian/australian.dat'  # noqa
-CATEGORICAL_IDX = [3, 4, 5, 11]  # 0, 7, 8 and 10 are already dummy variables
+DATA_FILE_NAME = 'australian.dat'
+DATA_URL = 'http://sci2s.ugr.es/keel/dataset/data/classification/australian.zip'  # noqa
 logger = logging.getLogger(__name__)
 
 
@@ -32,22 +32,11 @@ class AusSerialize(SerializeSettings):
             download(DATA_URL, get_data_path(data_path))
 
     def read(self):
-        self.data = np.loadtxt(get_data_path(self.data_path), dtype=float)
-
-        self.features = pd.DataFrame(self.data[:, :-1])
-
-        # Some columns are numerical versions of categorical columns
-        # Let's create dummy cars instead
-        for idx in CATEGORICAL_IDX:
-            dummies = pd.get_dummies(self.features.iloc[:, idx])
-            self.features = pd.concat([self.features, dummies], axis=1)
-
-        # Discard original ones
-        preserve = [i for i in range(self.features.shape[1])
-                    if i not in CATEGORICAL_IDX]
-        self.features = self.features.iloc[:, preserve].as_matrix()
-
-        self.labels = self.data[:, -1]
+        self.data = pd.read_csv(get_data_path(self.data_path),
+                                skiprows=19,
+                                header=None)
+        self.features = self.data.loc[:, self.data.columns.values[:-1]]
+        self.labels = self.data.loc[:, self.data.columns.values[-1]]
 
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Separates data into training, validation and test and normalizes
@@ -65,7 +54,7 @@ class AusSerialize(SerializeSettings):
     def _normalize_features(self, train_idx, val_idx):
         training = np.concatenate([train_idx, val_idx])
         mean_c, std_c, min_c, max_c = \
-            feature_normalize(self.features[training, :])
+            feature_normalize(self.features.iloc[training, :])
 
         self.features = (self.features - mean_c) / std_c
 
@@ -94,15 +83,15 @@ class AusSerialize(SerializeSettings):
         return cols
 
     def build_examples(self, index):
-        row = self.features[index, :]
+        row = self.features.iloc[index, :]
         feature_dict = {}
         for i in range(self.features.shape[1]):
             feature_dict.update(
-                {str(i): float64_feature(row[i])}
+                {str(i): float64_feature(row.iloc[i])}
             )
 
         feature_dict.update(
-            {'class': int64_feature(int(self.labels[index]))}
+            {'class': int64_feature(int(self.labels.iloc[index]))}
         )
 
         return [tf.train.Example(features=tf.train.Features(feature=feature_dict))]  # noqa
@@ -151,14 +140,18 @@ def get_data_path(folder):
 
 def download(url, dst):
     """ Downloads the data file into the given path """
-    # Download into temp file
-    fd, down = tempfile.mkstemp()
-    urllib.request.urlretrieve(url, down)
+    # Download tar file into temp folder
+    tmp_folder = tempfile.mkdtemp()
+    zip_path = os.path.join(tmp_folder, 'australian.zip')
+    urllib.request.urlretrieve(url, zip_path)
 
-    # Move bytes from input to output
-    data_array = np.loadtxt(down, dtype=float)
-    np.savetxt(dst, data_array)
+    # Unzip file into tmp folder
+    dst_path = os.path.join(tmp_folder, 'unzipped')
+    with zipfile.ZipFile(zip_path, 'r') as f:
+        f.extractall(dst_path)
 
-    # Delete tmp file
-    os.close(fd)
-    os.remove(down)
+    # Copy dataset file into destination
+    data_file = os.path.join(dst_path, DATA_FILE_NAME)
+    shutil.copyfile(data_file, dst)
+
+    shutil.rmtree(tmp_folder)
