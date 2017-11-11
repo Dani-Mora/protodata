@@ -1,7 +1,7 @@
 from protodata.serialization_ops import SerializeSettings
 from protodata.reading_ops import DataSettings
 from protodata.utils import create_dir
-from protodata.data_ops import NumericColumn, split_data, feature_normalize, \
+from protodata.data_ops import NumericColumn, feature_normalize, \
     map_feature_type, float64_feature, int64_feature
 
 import tensorflow as tf
@@ -13,11 +13,11 @@ import logging
 QUANTUM_TRAIN_NAME = 'phy_train.dat'
 QUANTUM_TEST_NAME = 'phy_test.dat'
 
-TO_DELETE_COLS = [21, 22, 23, 45, 46, 47, 30, 56]
+MISSING_COLS = [21, 22, 23, 45, 46, 47, 30, 56]
+ZERO_COLS = [48, 49, 50, 51, 52]
+TO_DELETE_COLS = MISSING_COLS + ZERO_COLS
 
 logger = logging.getLogger(__name__)
-
-# TODO: it is important to remember that the first column is the label
 
 
 class QuantumSerialize(SerializeSettings):
@@ -28,31 +28,48 @@ class QuantumSerialize(SerializeSettings):
         create_dir(data_path)
         if not is_downloaded(data_path):
             raise RuntimeError(
-                'This dataset has been extracted from the KDD Cup 2004' +
+                'This dataset has been extracted from the KDD Cup 2004. ' +
                 'In order to process, please proceed to request a copy in ' +
                 'http://osmot.cs.cornell.edu/kddcup/datasets.html. After ' +
                 'downloading it, place the extracted content into '
-                '%s and repeat this operation'
+                '%s and repeat this operation' % data_path
             )
 
     def read(self):
-        self.train_data = np.loadtxt(
+        train_data = np.loadtxt(
             get_train_data_path(self.data_path), dtype=float
         )
-        self.test_data = np.loadtxt(
-            get_train_data_path(self.data_path), dtype=float
+        test_data = np.loadtxt(
+            get_test_data_path(self.data_path), dtype=object
         )
 
         # The columns we are deleting are those who have missing values
-        self.train_data = np.delete(self.train_data, TO_DELETE_COLS, axis=1)
-        self.test_data = np.delete(self.test_data, TO_DELETE_COLS, axis=1)
+        train_data = np.delete(train_data, TO_DELETE_COLS, axis=1)
+        test_data = np.delete(test_data, TO_DELETE_COLS, axis=1)
 
-        self.train_labels = self.train_data[:, 1]
-        self.test_labels = self.test_data[:, 1]
+        train_labels = train_data[:, 1]
+        # Add -1 as test label since the information is not public
+        test_labels = np.zeros(test_data.shape[0]) - 1
 
         # Free feature arrays from the label info
-        self.train_data = np.delete(self.train_data, 1, axis=1)
-        self.test_data = np.delete(self.test_data, 1, axis=1)
+        train_data = np.delete(train_data, 1, axis=1)
+        test_data = np.delete(test_data, 1, axis=1)
+
+        # Convert test array into float now
+        test_data = test_data.astype(float)
+
+        # Append into general objects
+        self.features = np.concatenate(
+            [train_data, test_data], axis=0
+        )
+        self.labels = np.concatenate(
+            [train_labels, test_labels], axis=0
+        )
+        self.n_train = train_data.shape[0]
+
+        # Keep id and remove it from features
+        self.ids = self.features[:, 0]
+        self.features = np.delete(self.features, 0, axis=1)
 
     def get_validation_indices(self, train_ratio, val_ratio):
         """ Separates data into training, validation and test and normalizes
@@ -62,8 +79,8 @@ class QuantumSerialize(SerializeSettings):
             'in Quantum Physics dataset. Validation ratio will only be used'
         )
 
-        n_total = self.train_data.shape[0] + self.test_data.shape[0]
-        max_val_ratio = self.train_data.shape[0] / n_total
+        n_total = self.features.shape[0]
+        max_val_ratio = self.n_train / n_total
 
         if val_ratio >= max_val_ratio:
             raise ValueError(
@@ -71,10 +88,10 @@ class QuantumSerialize(SerializeSettings):
                 'Maximum allowed is %f' % max_val_ratio
             )
 
-        # Fuse both datasets and provide indexes
-        train, val, test = split_data(self.features.shape[0],
-                                      train_ratio,
-                                      val_ratio)
+        train = range(self.n_train)
+        n_val = int(self.n_train * val_ratio)
+        val = np.random.permutation(train)[:n_val]
+        test = range(self.n_train, self.features.shape[0])
 
         # Store normalization info
         self.feature_norm = self._normalize_features(train, val)
@@ -83,8 +100,9 @@ class QuantumSerialize(SerializeSettings):
 
     def _normalize_features(self, train_idx, val_idx):
         training = np.concatenate([train_idx, val_idx])
+
         mean_c, std_c, min_c, max_c = \
-            feature_normalize(self.features.iloc[training, :])
+            feature_normalize(self.features[training, :])
 
         self.features = (self.features - mean_c) / std_c
 
@@ -105,6 +123,11 @@ class QuantumSerialize(SerializeSettings):
             )
             cols.append(current_col)
 
+        # Instance id
+        cols.append(NumericColumn(
+            name='id', type=map_feature_type(np.dtype('int'))
+        ))
+
         # Label
         cols.append(NumericColumn(
                 name='class', type=map_feature_type(np.dtype('int'))
@@ -113,32 +136,36 @@ class QuantumSerialize(SerializeSettings):
         return cols
 
     def build_examples(self, index):
-        row = self.features.iloc[index, :]
+        row = self.features[index, :]
         feature_dict = {}
         for i in range(self.features.shape[1]):
             feature_dict.update(
-                {str(i): float64_feature(row.iloc[i])}
+                {str(i): float64_feature(row[i])}
             )
 
+        feature_dict.update({
+            'id': int64_feature(int(self.ids[index]))
+        })
+
         feature_dict.update(
-            {'class': int64_feature(int(self.labels.iloc[index]))}
+            {'class': int64_feature(int(self.labels[index]))}
         )
 
         return [tf.train.Example(features=tf.train.Features(feature=feature_dict))]  # noqa
 
 
-class AusSettings(DataSettings):
+class QuantumSettings(DataSettings):
 
     def __init__(self, dataset_location, image_specs=None,
                  embedding_dimensions=32, quantizer=None):
-        super(AusSettings, self).__init__(
+        super(QuantumSettings, self).__init__(
             dataset_location=dataset_location,
             image_specs=image_specs,
             embedding_dimensions=embedding_dimensions,
             quantizer=quantizer)
 
     def tag(self):
-        return 'aus'
+        return 'quantum'
 
     def size_per_instance(self):
         return 0.5
@@ -153,7 +180,7 @@ class AusSettings(DataSettings):
         return 2
 
     def select_wide_cols(self):
-        return [v.to_column() for k, v in self.columns.items()]
+        return [v.to_column() for k, v in self.columns.items() if k != 'id']
 
     def select_deep_cols(self):
         return RuntimeError('No embeddings in this dataset')
