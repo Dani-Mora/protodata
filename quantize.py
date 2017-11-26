@@ -6,11 +6,12 @@ categorical columns
 """
 
 from protodata.data_ops import copy_columns, get_interval_mask
-from protodata.utils import NON_SAVABLE_COL, get_logger
+from protodata.utils import NON_SAVABLE_COL
 import abc
 import tensorflow as tf
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 
 class BaseQuantize(object):

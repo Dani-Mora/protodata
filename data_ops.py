@@ -2,14 +2,15 @@ import matplotlib.path as mplPath
 from abc import ABCMeta
 import abc
 
-from protodata.utils import read_json, get_logger
+from protodata.utils import read_json
 from protodata.columns import create_image_column
 
 import numpy as np
 import os
 import tensorflow as tf
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 
 """ General functions for data manipulation """

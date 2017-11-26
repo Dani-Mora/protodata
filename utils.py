@@ -8,25 +8,7 @@ import logging
 from datetime import datetime
 
 
-def get_logger(name, level=logging.DEBUG):
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
-
-    # Set handler level and set output to go into std output
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.INFO)
-
-    # Set specific format
-    src_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    formatter = logging.Formatter(src_format)
-    handler.setFormatter(formatter)
-
-    # Add handler to main logger
-    logger.addHandler(handler)
-    return logger
-
-
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 NON_SAVABLE_COL = 'not_saveable'

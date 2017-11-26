@@ -1,5 +1,5 @@
 import protodata.data_ops as do
-from protodata.utils import save_pickle, create_dir, download_file, get_logger
+from protodata.utils import save_pickle, create_dir, download_file
 from protodata.image_ops import ImageCoder, process_image
 
 import threading
@@ -12,7 +12,8 @@ import abc
 import numpy as np
 import tensorflow as tf
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 
 """ File containing code to generate TFRecords from datasets.

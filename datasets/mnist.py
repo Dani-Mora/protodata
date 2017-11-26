@@ -13,7 +13,7 @@ from protodata.reading_ops import DataSettings
 from protodata.data_ops import bytes_feature, int64_feature, DataMode, \
     map_feature_type, NumericColumn, SparseColumn, ImageColumn, \
     float64_feature
-from protodata.utils import create_dir, get_filename_url, get_logger
+from protodata.utils import create_dir, get_filename_url
 
 import numpy as np
 import os
@@ -24,7 +24,8 @@ import struct
 import array
 import tensorflow as tf
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 TRAIN_DATA_URL = \
     'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz'
