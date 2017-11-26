@@ -10,14 +10,15 @@ from protodata.data_ops import is_numeric, SparseColumn, ImageColumn, is_bool, \
     is_categorical, split_data, NumericColumn, map_feature, int64_feature
 from protodata.serialization_ops import SerializeSettings
 from protodata.reading_ops import DataSettings
-from protodata.utils import load_pickle, get_logger
+from protodata.utils import load_pickle
 
 import pandas as pd
 import numpy as np
 import tensorflow as tf
 import os
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 
 METADATA_COLUMNS = ['listing_url', 'last_scraped', 'id',

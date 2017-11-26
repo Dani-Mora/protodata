@@ -1,9 +1,12 @@
 from protodata.datasets import Datasets, TitanicSettings
 from protodata.reading_ops import DataReader
 from protodata.data_ops import DataMode
-from protodata.utils import get_data_location, get_logger
+from protodata.utils import get_data_location
 
 import tensorflow as tf
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 tf.app.flags.DEFINE_string('data_location',
@@ -28,8 +31,6 @@ FLAGS = tf.app.flags.FLAGS
 
 
 if __name__ == '__main__':
-
-    logger = get_logger(__name__)
 
     with tf.Session() as sess:
 

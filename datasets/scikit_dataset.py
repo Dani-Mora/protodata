@@ -12,12 +12,12 @@ from protodata.data_ops import NumericColumn, split_data, feature_normalize, \
     map_feature_type, map_feature
 from protodata.serialization_ops import SerializeSettings
 from protodata.reading_ops import DataSettings
-from protodata.utils import get_logger
 
 import numpy as np
 import tensorflow as tf
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 
 class ScikitSerialize(SerializeSettings):

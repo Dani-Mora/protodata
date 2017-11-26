@@ -2,10 +2,14 @@ from protodata.reading_ops import DataReader
 from protodata.datasets import MnistSettings, Datasets
 from protodata.data_ops import DataMode
 from protodata.image_ops import get_image_specs
-from protodata.utils import NetworkModels, get_data_location, get_logger
+from protodata.utils import NetworkModels, get_data_location
 
 import scipy.misc
 import tensorflow as tf
+
+import logging
+logger = logging.getLogger(__name__)
+
 
 tf.app.flags.DEFINE_string('data_location',
                            get_data_location(Datasets.MNIST),
@@ -28,8 +32,6 @@ FLAGS = tf.app.flags.FLAGS
 
 
 if __name__ == '__main__':
-
-    logger = get_logger(__name__)
 
     with tf.Session() as sess:
 

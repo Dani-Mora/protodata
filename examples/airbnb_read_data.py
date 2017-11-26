@@ -14,10 +14,13 @@ from protodata.data_ops import DataMode
 from protodata.reading_ops import DataReader
 from protodata.datasets import AirbnbSettings, Datasets
 from protodata.image_ops import get_alexnet_specs
-from protodata.utils import get_logger, get_data_location
+from protodata.utils import get_data_location
 
 import scipy
 import tensorflow as tf
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 tf.app.flags.DEFINE_string('batch_size',
@@ -44,8 +47,6 @@ FLAGS = tf.app.flags.FLAGS
 
 
 if __name__ == '__main__':
-
-    logger = get_logger(__name__)
 
     with tf.Session() as sess:
 

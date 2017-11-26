@@ -1,5 +1,5 @@
 import protodata.data_ops as do
-from protodata.utils import FileNotFound, load_pickle, get_logger
+from protodata.utils import FileNotFound, load_pickle
 from protodata.quantize import BaseQuantize
 
 import abc
@@ -8,7 +8,8 @@ from abc import ABCMeta
 import os
 import tensorflow as tf
 
-logger = get_logger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 
 
 """ File containing code to batch serialized data.
