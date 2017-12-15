@@ -11,6 +11,7 @@ from protodata.datasets.balance import BalanceSettings, BalanceSerialize
 from protodata.datasets.covertype import CoverTypeSettings, CoverTypeSerialize
 from protodata.datasets.susy import SusySettings, SusySerialize
 from protodata.datasets.quantum import QuantumSettings, QuantumSerialize
+from protodata.datasets.motor import MotorSettings, MotorSerialize
 
 
 __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
@@ -18,10 +19,10 @@ __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
            'AusSettings', 'AusSerialize', 'SonarSettings', 'SonarSerialize',
            'DiabetesSettings', 'DiabetesSerialize', 'MagicSettings',
            'MagicSerialize', 'TitanicSettings', 'TitanicSerialize',
-           'Monk2Settings', 'Monk2Serialize', 'BalanceSettings',
-           'BalanceSerialize', 'CoverTypeSettings', 'CoverTypeSerialize',
-           'SusySerialize', 'SusySettings', 'QuantumSerialize',
-           'QuantumSettings', 'Datasets']
+           'Monk2Settings', 'Monk2Serialize', 'MotorSettings',
+           'MotorSerialize', 'BalanceSettings', 'BalanceSerialize',
+           'CoverTypeSettings', 'CoverTypeSerialize', 'SusySerialize',
+           'SusySettings', 'QuantumSerialize', 'QuantumSettings', 'Datasets']
 
 
 class Datasets:
@@ -35,6 +36,7 @@ class Datasets:
     MAGIC = 'magic'
     MNIST = 'mnist'
     MONK2 = 'monk2'
+    MOTOR = 'motor'
     QUANTUM = 'quantum'
     SONAR = 'sonar'
     SUSY = 'susy'
