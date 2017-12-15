@@ -1,15 +1,22 @@
 from protodata.serialization_ops import DataSerializer
-from protodata.datasets import Datasets, AusSerialize
+from protodata import datasets
 from protodata.utils import get_data_location, get_tmp_data_location
 
 import tensorflow as tf
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
+dataset = datasets.Datasets.MOTOR
+serialize_fn = datasets.MotorSerialize
+folded = True
 
 tf.app.flags.DEFINE_string('raw_data_location',
-                           get_tmp_data_location(Datasets.AUS),
+                           get_tmp_data_location(dataset),
                            'Path where to extract raw data')
 
 tf.app.flags.DEFINE_string('data_location',
-                           get_data_location(Datasets.AUS, folded=True),
+                           get_data_location(dataset, folded=folded),
                            'Path where to build dataset')
 
 tf.app.flags.DEFINE_float('train_ratio', 0.80, 'Ratio of training instances')
@@ -35,7 +42,7 @@ FLAGS = tf.app.flags.FLAGS
 if __name__ == '__main__':
 
     # Configuration for extraction
-    settings = AusSerialize(data_path=FLAGS.raw_data_location)
+    settings = serialize_fn(data_path=FLAGS.raw_data_location)
 
     # Save to TFRecord
     serializer = DataSerializer(settings)
