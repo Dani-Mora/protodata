@@ -12,6 +12,7 @@ from protodata.datasets.covertype import CoverTypeSettings, CoverTypeSerialize
 from protodata.datasets.susy import SusySettings, SusySerialize
 from protodata.datasets.quantum import QuantumSettings, QuantumSerialize
 from protodata.datasets.motor import MotorSettings, MotorSerialize
+from protodata.datasets.fashion import FashionMnistSettings, FashionMnistSerialize  # noqa
 
 
 __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
@@ -22,7 +23,8 @@ __all__ = ['AirbnbSettings', 'AirbnbSerialize', 'MnistSettings',
            'Monk2Settings', 'Monk2Serialize', 'MotorSettings',
            'MotorSerialize', 'BalanceSettings', 'BalanceSerialize',
            'CoverTypeSettings', 'CoverTypeSerialize', 'SusySerialize',
-           'SusySettings', 'QuantumSerialize', 'QuantumSettings', 'Datasets']
+           'SusySettings', 'QuantumSerialize', 'QuantumSettings', 
+           'FashionMnistSettings', 'FashionMnistSerialize', 'Datasets']
 
 
 class Datasets:
@@ -34,6 +36,7 @@ class Datasets:
     COVERTYPE = 'covertype'
     DIABETES = 'diabetes'
     MAGIC = 'magic'
+    FASHION_MNIST = 'fashion'
     MNIST = 'mnist'
     MONK2 = 'monk2'
     MOTOR = 'motor'
