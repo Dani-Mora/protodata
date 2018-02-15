@@ -17,7 +17,6 @@ import tarfile
 import numpy as np
 import os
 import tempfile
-from six.moves import urllib
 from glob import glob
 import pickle
 import tensorflow as tf
