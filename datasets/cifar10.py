@@ -62,8 +62,6 @@ class Cifar10Serialize(SerializeSettings):
         return [read_batch(f) for f in files]
 
     def _get_test_batch(self):
-        print(self.data_path)
-        print(glob(os.path.join(self.data_path, 'test_batch*')))
         test_path = glob(os.path.join(self.data_path, 'test_batch'))[0]
         return read_batch(test_path)
 
