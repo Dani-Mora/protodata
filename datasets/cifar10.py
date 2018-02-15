@@ -16,6 +16,7 @@ import shutil
 import tarfile
 import numpy as np
 import os
+from six.moves import urllib
 import tempfile
 from glob import glob
 import pickle
@@ -182,10 +183,8 @@ def read_batch(f):
 def download(dst):
 
     # Download into temp file
-    # fd, down = tempfile.mkstemp()
-    # urllib.request.urlretrieve(CIFAR_URL, down)
-
-    down = '/home/dm-bw7/Downloads/cifar-10-python.tar.gz'
+    fd, down = tempfile.mkstemp()
+    urllib.request.urlretrieve(CIFAR_URL, down)
 
     # Create temporary folder where to extract subfiles
     tmp_folder = tempfile.mkdtemp()
